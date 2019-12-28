@@ -1,0 +1,72 @@
+.ContentChest {
+    background: #161618;
+    height: 100vh;
+    width: 100vw;
+}
+
+.cardWrapper {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.card {
+    height: 250px;
+    width: 200px;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    font-size: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.card:hover {
+    cursor: pointer;
+    border-color: lightslategray;
+}
+
+.newCard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    border: #0F5579 solid 4px;
+    height: 90vh;
+    width: 90vw;
+    max-height: 600px;
+    max-width: 800px;
+}
+
+.closeNewCard {
+    position: absolute;
+    right: 0px;
+    margin-right: 20px;
+    margin-top: 10px;
+    border: 2px lightslategray solid;
+    /* border-radius: 50%; */
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 23px;
+    color:Black;
+    font-weight: 900;
+    background:#FFFFFF;
+    font-size: 1rem;
+}
+.closeNewCard:hover {
+    cursor: pointer;
+    color:lightskyblue;
+}
+
+.newCardContent {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-start;
+    margin-left:10px;
+}
