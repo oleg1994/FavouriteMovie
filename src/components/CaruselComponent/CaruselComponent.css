@@ -1,0 +1,43 @@
+.carusel {
+    display: flex;
+    background: red;
+    flex-direction: row;
+    width: 72vw;
+    overflow: hidden;
+}
+
+.caruselImage {
+    height: 270px;
+    width:10vw;
+    padding: 10px 10px 5px 10px;
+    /* border-radius: 15px; */
+}
+
+.caruselCard {
+    border: 2px solid blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:10vw;
+}
+
+.caruselControlsWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top:20px;
+}
+
+.caruselButtonPrevious {
+    /* display: flex; */
+    width: 1vw;
+    height: 20px;
+    /* z-index: 6; */
+}
+
+.caruselButtonNext {
+    /* display: flex; */
+    width: 1vw;
+    height: 20px;
+    /* z-index: 6; */
+}

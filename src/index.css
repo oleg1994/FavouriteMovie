@@ -11,4 +11,5 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-width: 100vw;
+  font-family: 'Roboto', sans-serif;
 }
