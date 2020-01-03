@@ -26,7 +26,7 @@ class CaruselComponent extends React.Component {
             .then(res => res.json())
             .then((data) => {
                 this.setState({ movies: data.results })
-                console.log(this.state.movies)
+                // console.log(this.state.movies)
                 let linksArray = []
                 let titlesArray = []
                 for (let i = 0; i < this.state.movies.length; i++) {
@@ -54,12 +54,12 @@ class CaruselComponent extends React.Component {
 
             // this.scrollContainerBy(this.scrollContainerBy((this.container.scrollWidth / 20)))
             if (this.state.preLoadImg[0]) {
-                console.log("yes")
+                // console.log("yes")
                 let a = this.state.preLoadImg
                 let b = this.state.titles
                 var copy = a.pop()
                 var copy2 = b.pop()
-                console.log(copy)
+                // console.log(copy)
                 a.unshift(copy);
                 b.unshift(copy2);
                 this.setState({
@@ -67,7 +67,7 @@ class CaruselComponent extends React.Component {
                     titles: b,
                     animate: true
                 })
-                console.log(this.state.preLoadImgDisplay);
+                // console.log(this.state.preLoadImgDisplay);
                 setTimeout(() => {
                     this.setState({ animate: false })
                 }, 3000)
@@ -103,7 +103,7 @@ class CaruselComponent extends React.Component {
 
                     {
                         this.state.movies.map((movie, i) => {
-                            console.log(this.state.animate, i)
+                            // console.log(this.state.animate, i)
                             return (
                                 <div className={(this.state.animate && i === 0) ? "caruselCardWrapper newCard3" : "caruselCardWrapper"} key={i}>
                                     <div className={(this.state.animate && i === 0) ? "caruselCard newCard2" : "caruselCard"}>
