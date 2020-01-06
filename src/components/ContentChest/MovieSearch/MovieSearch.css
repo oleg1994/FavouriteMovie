@@ -1,0 +1,284 @@
+.cardWrapper {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+
+.card {
+    height: 250px;
+    width: 200px;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    font-size: 6rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.card:hover {
+    cursor: pointer;
+    border-color: lightslategray;
+}
+
+.newCard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    border: #0F5579 solid 4px;
+    height: 90vh;
+    width: 90vw;
+    max-height: 600px;
+    max-width: 800px;
+}
+
+.closeNewCard {
+    position: absolute;
+    right: 0px;
+    margin-right: 20px;
+    margin-top: 10px;
+    border: 2px lightslategray solid;
+    /* border-radius: 50%; */
+    padding: 3px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: 23px;
+    color: Black;
+    font-weight: 900;
+    background: #FFFFFF;
+    font-size: 1rem;
+}
+
+.closeNewCard:hover {
+    cursor: pointer;
+    color: lightskyblue;
+}
+
+.searchForm {
+    width: 100%;
+    max-width: 600px;
+    background:orange;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.newCardContent {
+    margin-top: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-left: 10px;
+    height: 500px;
+    width: 100%;
+    max-width: 750px;
+}
+
+.moviesFound {
+    height: 100%;
+    width: 97%;
+    max-width: 800px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.moviesFound::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.moviesFound::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.moviesFound::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+}
+
+.movieBlockWrapper {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.movieBlock {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    width: 100%;
+    max-width: 630px;
+    margin-top: 20px;
+    border-bottom: 2px #0F5579 solid;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.movieTitle {
+    width: 100%;
+    max-width: 230px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin-top: 10px;
+    text-align: center;
+    font-size: large;
+    font-weight: 900;
+}
+
+.movieDescription {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
+    justify-content: space-evenly;
+}
+
+.movieOverview {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.movieScore {
+    margin-top: 15px;
+    margin-left: 30px;
+    color: goldenrod;
+    font-size: larger;
+    font-weight: 900;
+}
+
+.movieRelease {
+    margin-top: 3px;
+    margin-left: 30px;
+    color: green;
+    font-size: larger;
+    font-weight: 900;
+}
+
+.poster {
+    height: 270px;
+    width: 230px;
+    border-radius: 15px;
+    margin-top: 5px;
+}
+
+.movieblockButtons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: 10px;
+}
+
+.movieButton {
+    background: #ffa724;
+    height: 50px;
+    width: 100px;
+    font-size: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 15px;
+    margin-right: 2px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.movieButton:hover {
+    background: #e6a84c;
+}
+
+.trailerFrame {
+    background: #e6a84c;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 600px) {
+    .movieBlock {
+        height: -webkit-fit-content;
+        height: -moz-fit-content;
+        height: fit-content;
+        width: 100%;
+        max-width: 300px;
+        margin-top: 20px;
+        border-bottom: 2px #0F5579 solid;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+}
