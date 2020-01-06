@@ -55,28 +55,20 @@
     /* z-index: 6; */
 }
 
-.newCard2{
-    animation: newCard 1s;
+.cardMoveLeft{
+    animation: moveLeft 1s;
+    
 }
-.caruselCardWrapper{
+/* .caruselCardWrapper{
     animation: newCard2 1s;
-}
+} */
 
-@keyframes newCard{
+@keyframes moveLeft{
     from{
        width: 0vw;
        /* transform: translateX(-5vw); */
     } to{
         width: 10vw;
         /* transform: translateX(0vw); */
-    }
-}
-@keyframes newCard2{
-    from{
-       /* width: 0vw; */
-       transform: translateX(0vw);
-    } to{
-        /* width: 10vw; */
-        transform: translateX(10vw);
     }
 }
