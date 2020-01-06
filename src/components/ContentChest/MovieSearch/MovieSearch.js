@@ -1,6 +1,7 @@
 import React from 'react';
 import './MovieSearch.css';
 import Trailer from '../Trailer/Trailer'
+import searchIcon from '../../../images/magnifying-glass.svg'
 
 
 class MovieSearch extends React.Component {
@@ -11,6 +12,7 @@ class MovieSearch extends React.Component {
             value: '',
             movies: [],
             trailer: '',
+            animate: false,
             apiKey: 'bc4ef851ecf12182fb8bcef42dc17d08'
         };
 
@@ -22,7 +24,6 @@ class MovieSearch extends React.Component {
     }
     toggleSearch() {
         this.setState(state => ({ isToggleOn: !state.isToggleOn }));
-        console.log(this.state.isToggleOn)
     }
 
 
@@ -31,35 +32,39 @@ class MovieSearch extends React.Component {
     }
 
     handleSubmit(event) {
+        this.setState({ animate: true });
+        setTimeout(() => {
+            this.setState({ animate: false })
+        }, 1000)
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.state.apiKey}&language=en-US&query=${this.state.value}&page=1&include_adult=false`)
             .then(response => response.json())
             .then(data => {
                 this.setState({ movies: data })
             })
             .catch(error => console.error(error))
+           let divScrolling = document.getElementsByClassName('moviesFound')
+           divScrolling[0].style.overflowY = "scroll"
+           divScrolling[0].style.height = "400px"
         event.preventDefault();
     }
+   
 
     render() {
         return (
             <div className='cardWrapper'>
-                <div>My list</div>
-                <div className='card' onClick={this.toggleSearch}>+</div>
-                {this.state.isToggleOn ?
                     <div className='newCard'>
-                        <div className='closeNewCard' onClick={this.toggleSearch}>X</div>
                         <div className='newCardContent'>
                             <form onSubmit={this.handleSubmit} className='searchForm'>
-                                <label>
-                                    <input type='text' placeholder='Title' value={this.state.value} onChange={this.handleChange}></input>
-                                </label>
-                                <input type='submit' value='Search'></input>
+                                    <input type='text' placeholder='Search' value={this.state.value} onChange={this.handleChange} className='inputSearch'></input>
+                                <button type='submit' value='Search' className='submitSearch'>
+                                    <img src={searchIcon} alt='search icon' width='25px' height='25x'></img>
+                                </button>
                             </form>
                             <div className='moviesFound'>
                                 {this.state.movies.results ?
                                     this.state.movies.results.map((movie, i) => {
                                         return (
-                                            <div key={i} className='movieBlockWrapper'>
+                                            <div key={i} className={this.state.animate ? "movieBlockWrapper" : null} >
                                                 <div key={i} className='movieBlock'>
                                                     <div className='movieTitle'>
                                                         {movie.title}
@@ -86,9 +91,6 @@ class MovieSearch extends React.Component {
                             </div>
                         </div>
                     </div>
-                    :
-                    null
-                }
             </div>
         );
     }

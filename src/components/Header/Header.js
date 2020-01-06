@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.css';
+import {MyConsumer} from '../../MyContext'
 
 class Header extends React.Component {
   render() {

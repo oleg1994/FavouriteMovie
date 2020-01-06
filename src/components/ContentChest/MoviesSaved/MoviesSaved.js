@@ -1,8 +1,6 @@
 import React from 'react';
-import './ContentChest.css';
-import CaruselComponent from '../CaruselComponent/CaruselComponent';
-import MovieSearch from '../ContentChest/MovieSearch/MovieSearch';
-import MoviesSaved from '../ContentChest/MoviesSaved/MoviesSaved';
+import './MoviesSaved.css';
+
 
 class ContentChest extends React.Component {
     constructor(props) {
@@ -17,10 +15,8 @@ class ContentChest extends React.Component {
    
     render() {
         return (
-            <div className='ContentChest'>
-                <CaruselComponent />
-                <MovieSearch/>
-                <MoviesSaved/>
+            <div>
+            
             </div>
         );
     }

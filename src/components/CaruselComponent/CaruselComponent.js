@@ -1,5 +1,6 @@
 import React from 'react';
 import './CaruselComponent.css';
+import loading from '../../images/loading.gif'
 
 class CaruselComponent extends React.Component {
     constructor(props) {
@@ -14,34 +15,36 @@ class CaruselComponent extends React.Component {
             preLoadImgDisplay: [],
             preLoadTitle: [],
             animate: false,
-            interval: ''
+            interval: '',
+            target: ''
         };
         this.pause = this.pause.bind(this);
         this.unpause = this.unpause.bind(this);
         this.doStuff = this.doStuff.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     doStuff(params) {
-            // this.setState({ intervalTimer: 2000 })
-            this.interval = setInterval(() => {
-                    let a = this.state.preLoadImg
-                    let b = this.state.titles
-                    var copy = a.pop()
-                    var copy2 = b.pop()
-                    // console.log(copy)
-                    a.unshift(copy);
-                    b.unshift(copy2);
-                    this.setState({
-                        preLoadImgDisplay: a,
-                        titles: b,
-                        animate: true
-                    })
-                    // console.log(this.state.preLoadImgDisplay);
-                    setTimeout(() => {
-                        this.setState({ animate: false })
-                    }, 1000)
+        // this.setState({ intervalTimer: 2000 })
+        this.interval = setInterval(() => {
+            let a = this.state.preLoadImg
+            let b = this.state.titles
+            var copy = a.pop()
+            var copy2 = b.pop()
+            // console.log(copy)
+            a.unshift(copy);
+            b.unshift(copy2);
+            this.setState({
+                preLoadImgDisplay: a,
+                titles: b,
+                animate: true
+            })
+            // console.log(this.state.preLoadImgDisplay);
+            setTimeout(() => {
+                this.setState({ animate: false })
+            }, 1000)
 
-            }, 2000);
+        }, 2000);
     }
 
     // `${this.state.intervalTimer}`
@@ -73,23 +76,26 @@ class CaruselComponent extends React.Component {
 
             })
             .catch(console.log)
-            console.log(this.state.preLoadImg)
-            this.doStuff()
+        this.doStuff()
     }
 
     // componentWillUnmount() {
     //     clearInterval(this.interval);
     // }
     pause(event) {
-        console.log(event.type, 'enter')
         clearInterval(this.interval);
     }
     unpause(event) {
-        console.log(event.type, 'leave')
         this.doStuff()
 
     }
-
+    onSearch(event){
+        this.setState({ target:event.target.id })
+        if (this.state.target !== "") {
+            console.log(this.state.target)
+            }
+        
+    }
 
 
 
@@ -97,36 +103,27 @@ class CaruselComponent extends React.Component {
     render() {
         return (
             <div onMouseOver={(event) => this.pause(event)} onMouseOut={(event) => this.unpause(event)} className="caruselControlsWrapper">
-                <button
-                    type="button" className="caruselButtonPrevious"
-                    onClick={() => {
-
-                    }}
-                >
-                    Previous
-        </button>
                 <div className="carusel">
-
                     {
                         this.state.movies.map((movie, i) => {
-                            // console.log(this.state.animate, i)
                             return (
-                                <div key={i}>
-                                    <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
-                                        <img className="caruselImage" src={this.state.preLoadImgDisplay[i] ? this.state.preLoadImgDisplay[i]: 'https://i.gifer.com/XVo6.gif'} alt='poster'></img>
-                                        <div className="caruselTitle">{this.state.titles[i]}</div>
-                                    </div></div>)
+                                <div onClick={(event) => this.onSearch(event)}  key={i}>
+                                    
+                                     
+                                        <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
+                                            {
+                                                this.state.preLoadImgDisplay[i] ?
+                                                <img className="caruselImage" id={this.state.titles[i]} src={this.state.preLoadImgDisplay[i]} alt='poster'></img>
+                                                :
+                                                <img className="LoadingPlaceHolder" src={loading} alt='poster'></img>
+                                            }               
+                                            <div className="caruselTitle" id={this.state.titles[i]}>{this.state.titles[i]}</div>
+                                        </div>
+                                    
+                                </div>)
                         }
                         )}
                 </div>
-                <button
-                    type="button" className="caruselButtonNext"
-                    onClick={() => {
-
-                    }}
-                >
-                    Next
-        </button>
             </div>);
     }
 }
