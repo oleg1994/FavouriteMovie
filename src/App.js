@@ -8,7 +8,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       MyProvider: this.value
-    };}
+    };
+  }
+
+  
 
   render() {
     return (

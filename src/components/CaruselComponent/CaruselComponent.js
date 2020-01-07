@@ -16,7 +16,7 @@ class CaruselComponent extends React.Component {
             preLoadTitle: [],
             animate: false,
             interval: '',
-            target: ''
+            targeted: ""
         };
         this.pause = this.pause.bind(this);
         this.unpause = this.unpause.bind(this);
@@ -89,11 +89,14 @@ class CaruselComponent extends React.Component {
         this.doStuff()
 
     }
-    onSearch(event){
-        this.setState({ target:event.target.id })
-        if (this.state.target !== "") {
-            console.log(this.state.target)
-            }
+    onSearch(event) {
+        // event.preventDefault();
+        console.log(event.target.id)
+        let pointedValue = event.target.id
+        // console.dir(event.target.id)
+        this.props.setSelectedMovieHandler({ name: pointedValue });
+        this.setState({ targeted: pointedValue });
+        console.log(this.state.targeted);
         
     }
 
@@ -107,19 +110,19 @@ class CaruselComponent extends React.Component {
                     {
                         this.state.movies.map((movie, i) => {
                             return (
-                                <div onClick={(event) => this.onSearch(event)}  key={i}>
-                                    
-                                     
-                                        <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
-                                            {
-                                                this.state.preLoadImgDisplay[i] ?
+                                <div onClick={(event) => {this.onSearch(event)}} key={i}>
+
+
+                                    <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
+                                        {
+                                            this.state.preLoadImgDisplay[i] ?
                                                 <img className="caruselImage" id={this.state.titles[i]} src={this.state.preLoadImgDisplay[i]} alt='poster'></img>
                                                 :
                                                 <img className="LoadingPlaceHolder" src={loading} alt='poster'></img>
-                                            }               
-                                            <div className="caruselTitle" id={this.state.titles[i]}>{this.state.titles[i]}</div>
-                                        </div>
-                                    
+                                        }
+                                        <div className="caruselTitle" id={this.state.titles[i]}>{this.state.titles[i]}</div>
+                                    </div>
+
                                 </div>)
                         }
                         )}

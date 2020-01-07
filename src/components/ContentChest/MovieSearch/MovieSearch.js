@@ -42,55 +42,64 @@ class MovieSearch extends React.Component {
                 this.setState({ movies: data })
             })
             .catch(error => console.error(error))
-           let divScrolling = document.getElementsByClassName('moviesFound')
-           divScrolling[0].style.overflowY = "scroll"
-           divScrolling[0].style.height = "400px"
+        let divScrolling = document.getElementsByClassName('moviesFound')
+        divScrolling[0].style.overflowY = "scroll"
+        divScrolling[0].style.height = "400px"
         event.preventDefault();
     }
-   
+    componentWillUpdate(props) {
+        console.log(props.selectedMovie)
+
+
+    }
+
 
     render() {
         return (
             <div className='cardWrapper'>
-                    <div className='newCard'>
-                        <div className='newCardContent'>
-                            <form onSubmit={this.handleSubmit} className='searchForm'>
-                                    <input type='text' placeholder='Search' value={this.state.value} onChange={this.handleChange} className='inputSearch'></input>
-                                <button type='submit' value='Search' className='submitSearch'>
-                                    <img src={searchIcon} alt='search icon' width='25px' height='25x'></img>
-                                </button>
-                            </form>
-                            <div className='moviesFound'>
-                                {this.state.movies.results ?
-                                    this.state.movies.results.map((movie, i) => {
-                                        return (
-                                            <div key={i} className={this.state.animate ? "movieBlockWrapper" : null} >
-                                                <div key={i} className='movieBlock'>
-                                                    <div className='movieTitle'>
-                                                        {movie.title}
-                                                        <img src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster' className='poster'></img>
-                                                    </div>
-                                                    <div className='movieDescription'>
-                                                        <div className='movieScore'>Rating: {movie.vote_average ? movie.vote_average : 'unknown'}</div>
-                                                        <div className='movieRelease'>Release date: {movie.release_date ? movie.release_date : 'unknown'}</div>
-                                                        <div className='movieOverview'>{movie.overview ? movie.overview : 'unknown'}</div>
-                                                        <div className='movieblockButtons'>
-                                                            <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
-                                                            <div className='movieButton'>Save&Wait</div>
-                                                            <div className='movieButton'>Add to watch list</div>
-                                                        </div>
+
+                <div className='newCard'>
+                    <div className='newCardContent'>
+                       
+                        <form onSubmit={this.handleSubmit} className='searchForm'>
+                            <input type='text' placeholder='Search' value={this.state.value} onChange={this.handleChange} className='inputSearch'></input>
+                            <button type='submit' value='Search' className='submitSearch'>
+                                <img src={searchIcon} alt='search icon' width='25px' height='25x'></img>
+                               
+                            </button>
+                        </form>
+
+                        <div className='moviesFound'>
+                            {this.state.movies.results ?
+                                this.state.movies.results.map((movie, i) => {
+                                    return (
+                                        <div key={i} className={this.state.animate ? "movieBlockWrapper" : null} >
+                                            <div key={i} className='movieBlock'>
+                                                <div className='movieTitle'>
+                                                    {movie.title}
+                                                    <img src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster' className='poster'></img>
+                                                </div>
+                                                <div className='movieDescription'>
+                                                    <div className='movieScore'>Rating: {movie.vote_average ? movie.vote_average : 'unknown'}</div>
+                                                    <div className='movieRelease'>Release date: {movie.release_date ? movie.release_date : 'unknown'}</div>
+                                                    <div className='movieOverview'>{movie.overview ? movie.overview : 'unknown'}</div>
+                                                    <div className='movieblockButtons'>
+                                                        <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
+                                                        <div className='movieButton'>Save&Wait</div>
+                                                        <div className='movieButton'>Add to watch list</div>
                                                     </div>
                                                 </div>
-                                                {movie.id === this.state.trailer? <Trailer movieID={this.state.trailer}/> : null}
                                             </div>
-                                        )
-                                    })
-                                    :
-                                    null
-                                }
-                            </div>
+                                            {movie.id === this.state.trailer ? <Trailer movieID={this.state.trailer} /> : null}
+                                        </div>
+                                    )
+                                })
+                                :
+                                null
+                            }
                         </div>
                     </div>
+                </div>
             </div>
         );
     }
