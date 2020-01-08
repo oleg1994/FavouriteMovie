@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import ContentChest from './components/ContentChest/ContentChest';
 import { MyProvider } from './MyContext';
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
         <MyProvider value={this.state}>
           <Header />
           <ContentChest />
+          <Footer></Footer>
         </MyProvider>
       </div>
     );

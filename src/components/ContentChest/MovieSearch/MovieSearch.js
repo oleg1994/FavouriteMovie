@@ -32,6 +32,7 @@ class MovieSearch extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
         this.setState({ animate: true });
         setTimeout(() => {
             this.setState({ animate: false })
@@ -39,36 +40,37 @@ class MovieSearch extends React.Component {
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.state.apiKey}&language=en-US&query=${this.state.value}&page=1&include_adult=false`)
             .then(response => response.json())
             .then(data => {
-                this.setState({ movies: data })
+                if (!data.errors) {
+                    this.setState({ movies: data })
+                    let divScrolling = document.getElementsByClassName('moviesFound')
+                    divScrolling[0].style.overflowY = "scroll"
+                    divScrolling[0].style.height = "400px"
+
+                }
             })
             .catch(error => console.error(error))
-        let divScrolling = document.getElementsByClassName('moviesFound')
-        divScrolling[0].style.overflowY = "scroll"
-        divScrolling[0].style.height = "400px"
-        event.preventDefault();
+
+
+
     }
+
+
     componentWillUpdate(props) {
         console.log(props.selectedMovie)
-
-
     }
 
 
     render() {
         return (
             <div className='cardWrapper'>
-
                 <div className='newCard'>
                     <div className='newCardContent'>
-                       
                         <form onSubmit={this.handleSubmit} className='searchForm'>
                             <input type='text' placeholder='Search' value={this.state.value} onChange={this.handleChange} className='inputSearch'></input>
                             <button type='submit' value='Search' className='submitSearch'>
                                 <img src={searchIcon} alt='search icon' width='25px' height='25x'></img>
-                               
                             </button>
                         </form>
-
                         <div className='moviesFound'>
                             {this.state.movies.results ?
                                 this.state.movies.results.map((movie, i) => {
