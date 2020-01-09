@@ -17,7 +17,7 @@ class ContentChest extends React.Component {
       setSelectedMovieHandler(selectedMovie){
         this.setState({selectedMovie})
       }
-   
+ 
     render() {
         return (
             <div className='ContentChest'>

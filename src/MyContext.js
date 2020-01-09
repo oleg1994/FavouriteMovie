@@ -1,6 +1,6 @@
-import React from 'react'
-const MyContext = React.createContext()
-const MyProvider = MyContext.Provider
-const MyConsumer = MyContext.Consumer
+import React from 'react';
 
-export {MyProvider,MyConsumer}
+export default React.createContext({
+  title: '',
+  updateTitle: title => {console.log(title,'its in context')},
+});

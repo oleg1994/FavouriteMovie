@@ -1,6 +1,7 @@
 import React from 'react';
 import './CaruselComponent.css';
 import loading from '../../images/loading.gif'
+import MyContext from '../../MyContext';
 
 class CaruselComponent extends React.Component {
     constructor(props) {
@@ -89,6 +90,8 @@ class CaruselComponent extends React.Component {
         this.doStuff()
 
     }
+    
+    //THIS IS NOT IN USE ANYMORE AFTER GLOBAL STATE WAS IMPLEMENTED
     onSearch(event) {
         // event.preventDefault();
         console.log(event.target.id)
@@ -97,7 +100,6 @@ class CaruselComponent extends React.Component {
         this.props.setSelectedMovieHandler({ name: pointedValue });
         this.setState({ targeted: pointedValue });
         console.log(this.state.targeted);
-        
     }
 
 
@@ -105,29 +107,32 @@ class CaruselComponent extends React.Component {
 
     render() {
         return (
-            <div onMouseOver={(event) => this.pause(event)} onMouseOut={(event) => this.unpause(event)} className="caruselControlsWrapper">
-                <div className="carusel">
-                    {
-                        this.state.movies.map((movie, i) => {
-                            return (
-                                <div onClick={(event) => {this.onSearch(event)}} key={i}>
+            <MyContext.Consumer>
+                {context => (
+                    <div onMouseOver={(event) => this.pause(event)} onMouseOut={(event) => this.unpause(event)} className="caruselControlsWrapper">
+                        <div className="carusel">
+                            {
+                                this.state.movies.map((movie, i) => {
+                                    return (
+                                        <div onClick={(event) => {context.updateTitle(event.target.id) }} key={i}>
+                                            <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
+                                                {
+                                                    this.state.preLoadImgDisplay[i] ?
+                                                        <img className="caruselImage" id={this.state.titles[i]} src={this.state.preLoadImgDisplay[i]} alt='poster'></img>
+                                                        :
+                                                        <img className="LoadingPlaceHolder" src={loading} alt='poster'></img>
+                                                }
+                                                <div className="caruselTitle" id={this.state.titles[i]}>{this.state.titles[i]}</div>
+                                            </div>
 
-
-                                    <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
-                                        {
-                                            this.state.preLoadImgDisplay[i] ?
-                                                <img className="caruselImage" id={this.state.titles[i]} src={this.state.preLoadImgDisplay[i]} alt='poster'></img>
-                                                :
-                                                <img className="LoadingPlaceHolder" src={loading} alt='poster'></img>
-                                        }
-                                        <div className="caruselTitle" id={this.state.titles[i]}>{this.state.titles[i]}</div>
-                                    </div>
-
-                                </div>)
-                        }
-                        )}
-                </div>
-            </div>);
+                                        </div>)
+                                }
+                                )}
+                        </div>
+                    </div>
+                )}
+            </MyContext.Consumer>
+        );
     }
 }
 

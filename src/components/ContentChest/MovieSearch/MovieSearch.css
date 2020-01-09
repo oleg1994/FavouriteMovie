@@ -1,5 +1,10 @@
 .cardWrapper {
     margin-top: 15px;
+    width: 90%;
+    margin: 0px auto;
+    margin-top: 20px;
+
+
 }
 
 .newCardContent {
@@ -11,7 +16,7 @@
 }
 
 .searchForm {
-    width: 90%;
+    width: 100%;
     margin: 0px auto;
     max-width: 1300px;
     background: orange;
@@ -47,12 +52,13 @@
     border-color: #c6c6c6;
     background-color: #f0f0f0;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.10);
+    cursor: pointer;
 }
 
 .moviesFound {
     height: 0;
     width: 100%;
-    max-width: 90%;
+    max-width: 100%;
     margin: 0px auto;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -62,8 +68,8 @@
     -ms-flex-direction: column;
     flex-direction: column;
     overflow: hidden;
-    border:2px solid white;
     border-top:none;
+    border:none;
     border-radius: 15px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
@@ -75,6 +81,21 @@
 
 
 .movieBlockWrapper {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-animation: intro 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: intro 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.movieBlockWrapperReset {
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
@@ -161,6 +182,7 @@
     margin-top: 5px;
     margin-left: 10px;
     color: white;
+    font-size:1rem;
 }
 
 .movieScore {
@@ -191,6 +213,8 @@
     display: -ms-flexbox;
     display: flex;
     margin-left: 10px;
+    width:100%;
+    max-width: 300px;
 }
 
 .movieButton {
@@ -248,5 +272,29 @@
         -webkit-box-direction: normal;
         -ms-flex-direction: column;
         flex-direction: column;
+    }
+    .movieOverview {
+        margin-top: 5px;
+        margin-left:0px;
+
+    }
+    .movieblockButtons {
+        margin-left:0px;
+
+    }
+    .movieScore {
+        all:unset;
+        margin-top: 15px;
+        color: goldenrod;
+        font-size: larger;
+        font-weight: 900;
+    }
+    
+    .movieRelease {
+        all:unset;
+        margin-top: 3px;
+        color: green;
+        font-size: larger;
+        font-weight: 900;
     }
 }
