@@ -88,12 +88,13 @@ class MovieSearch extends React.Component {
       // has access of previous state and props with snapshot
       // Can call methods here
       // setState inside this will cause infinite loop
+      
       componentDidUpdate(prevProps, prevState) {
         if (prevState.selectedMovie !== this.context.title) {
             this.setState({ selectedMovie: this.context.title });
             this.setState({ value: this.state.selectedMovie });
-            this.handleCaruselSubmit()
-            
+            this.handleCaruselSubmit();
+            this.setState({animate:false})
         }
       }
    

@@ -91,7 +91,7 @@ class CaruselComponent extends React.Component {
 
     }
     
-    //THIS IS NOT IN USE ANYMORE AFTER GLOBAL STATE WAS IMPLEMENTED
+    //THIS IS NOT IN USE ANYMORE AFTER GLOBAL STATE WAS IMPLEMENTED then why is it even here??
     onSearch(event) {
         // event.preventDefault();
         console.log(event.target.id)
