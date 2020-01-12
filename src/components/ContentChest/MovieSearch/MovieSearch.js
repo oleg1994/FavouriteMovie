@@ -28,7 +28,7 @@ class MovieSearch extends React.Component {
         this.handleCaruselSubmit = this.handleCaruselSubmit.bind(this);
     }
 
-    
+
 
     toggleSearch() {
         this.setState(state => ({ isToggleOn: !state.isToggleOn }));
@@ -59,45 +59,49 @@ class MovieSearch extends React.Component {
             .catch(error => console.error(error))
     }
 
-    handleCaruselSubmit(){
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.state.apiKey}&language=en-US&query=${this.state.selectedMovie}&page=1&include_adult=false`)
-            .then(response => response.json())
-            .then(data => {
-                if (!data.errors) {
-                    this.setState({ movies: data })
-                    let divScrolling = document.getElementsByClassName('moviesFound')
-                    divScrolling[0].style.overflowY = "scroll"
-                    divScrolling[0].style.height = "400px"
-                    divScrolling[0].style.border = '2px solid white';
-                }
-            })
-            .catch(error => console.error(error))
+    handleCaruselSubmit() {
+        console.log(this.state.selectedMovie)
+        // fetch(`https://api.themoviedb.org/3/find/movie?api_key=${this.state.apiKey}&language=en-US&query=${this.state.selectedMovie}&page=1&include_adult=false`)
+        if (this.state.selectedMovie) {
+            fetch(`https://api.themoviedb.org/3/movie/${this.state.selectedMovie}?api_key=${this.state.apiKey}&language=en-US`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.errors || !data.status_code) {
+                        this.setState({ movies: { results: [data] } })
+                        this.setState({ value: this.state.movies.results[0].title });
+                        let divScrolling = document.getElementsByClassName('moviesFound')
+                        divScrolling[0].style.overflowY = "scroll"
+                        divScrolling[0].style.height = "400px"
+                        divScrolling[0].style.border = '2px solid white';
+                    }
+                })
+                .catch(error => console.error(error))
+        }
     }
 
 
-   
+
 
 
     componentDidMount(event) {
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
-  
-    
-      // Calls after component updated
-      // has access of previous state and props with snapshot
-      // Can call methods here
-      // setState inside this will cause infinite loop
-      
-      componentDidUpdate(prevProps, prevState) {
+
+
+    // Calls after component updated
+    // has access of previous state and props with snapshot
+    // Can call methods here
+    // setState inside this will cause infinite loop
+
+    componentDidUpdate(prevProps, prevState) {
         if (prevState.selectedMovie !== this.context.title) {
             this.setState({ selectedMovie: this.context.title });
-            this.setState({ value: this.state.selectedMovie });
             this.handleCaruselSubmit();
-            this.setState({animate:false})
+            this.setState({ animate: false })
         }
-      }
-   
+    }
+
 
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
@@ -113,53 +117,52 @@ class MovieSearch extends React.Component {
             divScrolling[0].style.overflowY = "none"
             divScrolling[0].style.height = 0
             divScrolling[0].style.border = 'none';
-            // this.setState({ value: '' });
+            this.setState({ value: '' });
         }
     }
 
     render() {
         return (
-                    <div className='cardWrapper' ref={this.setWrapperRef} >
-                        <div className='newCard'>
-                            <div className='newCardContent'>
-                                <form onSubmit={this.handleSubmit} className='searchForm'>
-                                    <input type='text' placeholder='Search' value={this.state.value} onChange={this.handleChange} className='inputSearch'></input>
-                                    <button type='submit' value='Search' className='submitSearch'>
-                                        <img src={searchIcon} alt='search icon' width='25px' height='25x'></img>
-                                    </button>
-                                </form>
-                                <div className='moviesFound'>
-                                    {this.state.movies.results ?
-                                        this.state.movies.results.map((movie, i) => {
-                                            return (
-                                                <div key={i} className={this.state.animate ? "movieBlockWrapper" : "movieBlockWrapperReset"} >
-                                                    <div key={i} className='movieBlock'>
-                                                        <div className='movieTitle'>
-                                                            {movie.title}
-                                                            <img src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster' className='poster'></img>
-                                                        </div>
-                                                        <div className='movieDescription'>
-                                                            <div className='movieScore'>Rating: {movie.vote_average ? movie.vote_average : 'unknown'}</div>
-                                                            <div className='movieRelease'>Release date: {movie.release_date ? movie.release_date : 'unknown'}</div>
-                                                            <div className='movieOverview'>{movie.overview ? movie.overview : 'unknown'}</div>
-                                                            <div className='movieblockButtons'>
-                                                                <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
-                                                                <div className='movieButton'>Save&Wait</div>
-                                                                <div className='movieButton'>Add to watch list</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {movie.id === this.state.trailer ? <Trailer movieID={this.state.trailer} /> : null}
+            <div className='cardWrapper' ref={this.setWrapperRef} >
+                <div className='newCard'>
+                    <div className='newCardContent'>
+                        <form onSubmit={this.handleSubmit} className='searchForm'>
+                            <input type='text' placeholder='Search' value={this.state.value} onChange={this.handleChange} className='inputSearch'></input>
+                            <button type='submit' value='Search' className='submitSearch'>
+                                <img src={searchIcon} alt='search icon' width='25px' height='25x'></img>
+                            </button>
+                        </form>
+                        <div className='moviesFound'>
+                            {this.state.movies.results ?
+                                this.state.movies.results.map((movie, i) => {
+                                    return (
+                                        <div key={i} className={this.state.animate ? "movieBlockWrapper" : "movieBlockWrapperReset"} >
+                                            <div key={i} className='movieBlock'>
+                                                <div className='movieTitle'>
+                                                    {movie.title}
+                                                    <img src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster' className='poster'></img>
                                                 </div>
-                                            )
-                                        })
-                                        :
-                                        null
-                                    }
-                                </div>
-                            </div>
+                                                <div className='movieDescription'>
+                                                    <div className='movieScore'>Rating: {movie.vote_average ? movie.vote_average : 'unknown'}</div>
+                                                    <div className='movieRelease'>Release date: {movie.release_date ? movie.release_date : 'unknown'}</div>
+                                                    <div className='movieOverview'>{movie.overview ? movie.overview : 'unknown'}</div>
+                                                    <div className='movieblockButtons'>
+                                                        <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
+                                                        <div className='movieButton'>Add to watch list</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {movie.id === this.state.trailer ? <Trailer movieID={this.state.trailer} /> : null}
+                                        </div>
+                                    )
+                                })
+                                :
+                                null
+                            }
                         </div>
                     </div>
+                </div>
+            </div>
         );
     }
 }

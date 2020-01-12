@@ -9,6 +9,7 @@ class CaruselComponent extends React.Component {
         this.state = {
             isToggleOn: false,
             movies: [],
+            movieIds: [],
             links: [],
             images: [],
             titles: [],
@@ -30,14 +31,18 @@ class CaruselComponent extends React.Component {
         this.interval = setInterval(() => {
             let a = this.state.preLoadImg
             let b = this.state.titles
+            let c = this.state.movieIds
             var copy = a.pop()
             var copy2 = b.pop()
+            var copy3 = c.pop()
             // console.log(copy)
             a.unshift(copy);
             b.unshift(copy2);
+            c.unshift(copy3);
             this.setState({
                 preLoadImgDisplay: a,
                 titles: b,
+                movieIds: c,
                 animate: true
             })
             // console.log(this.state.preLoadImgDisplay);
@@ -59,14 +64,20 @@ class CaruselComponent extends React.Component {
                 console.log(this.state.movies)
                 let linksArray = []
                 let titlesArray = []
+                let idsArray = []
                 this.state.movies.forEach((picture) => {
                     let separateLink = `https://image.tmdb.org/t/p/w780/${picture.poster_path}`
                     linksArray.push(separateLink)
                     let separateTitle = picture.title
                     titlesArray.push(separateTitle)
+                    let separateId = picture.id
+                    idsArray.push(separateId)
                 })
-                this.setState({ links: linksArray })
-                this.setState({ titles: titlesArray })
+                this.setState({
+                    links: linksArray,
+                    titles: titlesArray,
+                    movieIds: idsArray
+                })
                 let tempPreload = []
                 this.state.links.forEach((picture) => {
                     const img = new Image();
@@ -118,11 +129,11 @@ class CaruselComponent extends React.Component {
                                             <div className={(this.state.animate && i === 0) ? "caruselCard cardMoveLeft" : "caruselCard"}>
                                                 {
                                                     this.state.preLoadImgDisplay[i] ?
-                                                        <img className="caruselImage" id={this.state.titles[i]} src={this.state.preLoadImgDisplay[i]} alt='poster'></img>
+                                                        <img className="caruselImage" id={this.state.movieIds[i]} src={this.state.preLoadImgDisplay[i]} alt='poster'></img>
                                                         :
                                                         <img className="LoadingPlaceHolder" src={loading} alt='poster'></img>
                                                 }
-                                                <div className="caruselTitle" id={this.state.titles[i]}>{this.state.titles[i]}</div>
+                                                <div className="caruselTitle" id={this.state.movieIds[i]}>{this.state.titles[i]}</div>
                                             </div>
 
                                         </div>)

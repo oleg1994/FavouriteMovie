@@ -16,7 +16,7 @@ class Footer extends React.Component {
     render() {
         return (
             <div className="footer">
-            <p>The Useless Footer ---- THEN WHY IS IT EVEN HERE??! </p>
+            <p>All contents © Copyright Michael & Oleg , Inc.2019-2020. All Rights Reserved. </p>
           </div>
         );
     }

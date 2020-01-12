@@ -1,0 +1,28 @@
+.savedMovieWrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.savedMovieList {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.savedMovieBlock {
+    /* flex: 1 0 21%;  */
+    margin-left: 20px;
+    margin-bottom: 30px;
+    height: 300px;
+    width: 200px;
+}
+
+.savedMoviePoster {
+    border-bottom: 3px solid #008000;
+    height: 300px;
+    width: 200px;
+}
+.savedMovieTitle {
+    color:white;
+}
