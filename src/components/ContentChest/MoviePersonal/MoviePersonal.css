@@ -1,0 +1,108 @@
+.savedMovieForm{
+    margin-top:100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+	background: #f4f7f8;
+	border-radius: 8px;
+}
+.personalMenu{
+    margin-top:100px;
+    display: flex;
+    justify-content: center;  
+    align-items: center;
+    width: 100%;
+    height: 150px;
+    max-width: 300px;
+	background: #f4f7f854;
+	border-radius: 8px;
+}
+
+.savedMovieFormInput {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	background: rgba(255,255,255,.1);
+	border: none;
+	border-radius: 4px;
+	font-size: 15px;
+	margin: 0;
+	outline: 0;
+    padding: 10px;
+    width: 100%;
+	max-width: 300px;
+	box-sizing: border-box; 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	background-color: #e8eeef;
+	color:#8a97a0;
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;
+}
+
+.savedMovieFormInput:focus{
+	background: lightgray;
+}
+
+
+.savedMovieFormLabel{
+    color:gray;
+}
+
+.personalButton{
+    background: #ffa724;
+    height: 50px;
+    width: 100px;
+    font-size: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.personalBackButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border:2px solid #008000;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    padding: 3px;
+    position: relative;
+    top:-19px;
+    left:-150px;
+    cursor: pointer;
+    z-index: 8040;
+    background: #535865;
+}
+.personalContinueButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border:2px solid #008000;
+    height: 30px;
+    width: fit-content;
+    padding:10px;
+    margin-bottom: 20px;
+    color:#0f5579;
+    cursor: pointer;
+    background:#00800046;
+}

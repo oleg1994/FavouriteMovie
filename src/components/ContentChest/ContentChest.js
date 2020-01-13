@@ -2,7 +2,7 @@ import React from 'react';
 import './ContentChest.css';
 import CaruselComponent from '../CaruselComponent/CaruselComponent';
 import MovieSearch from '../ContentChest/MovieSearch/MovieSearch';
-import MoviesSaved from '../ContentChest/MoviesSaved/MoviesSaved';
+import MoviePersonal from './MoviePersonal/MoviePersonal';
 
 class ContentChest extends React.Component {
     constructor(props) {
@@ -23,8 +23,7 @@ class ContentChest extends React.Component {
             <div className='ContentChest'>
                 <CaruselComponent setSelectedMovieHandler={this.setSelectedMovieHandler} />
                 <MovieSearch selectedMovie={this.state.selectedMovie}/>
-                <h1 style={{color:'white'}}>{this.state.selectedMovie.name}</h1>
-                <MoviesSaved/>
+                <MoviePersonal></MoviePersonal>
             </div>
         );
     }

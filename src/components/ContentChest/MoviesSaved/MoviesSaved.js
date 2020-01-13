@@ -1,19 +1,23 @@
 import React from 'react';
 import './MoviesSaved.css';
+import editImage from './../../../images/edit.svg'
+import backImage from './../../../images/back.svg'
 
 import movies from './mockMovies.js';
 const moviesID = movies.getMovies();
 
-class ContentChest extends React.Component {
+class MoviesSaved extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             apiKey: 'bc4ef851ecf12182fb8bcef42dc17d08',
             savedMovies: [],
-            username: 'spongebob'
+            username: 'spongebob',
+            editMode: false
         };
 
         // This binding is necessary to make `this` work in the callback
+        this.editingMode = this.editingMode.bind(this);
 
     }
     componentDidMount(event) {
@@ -29,12 +33,6 @@ class ContentChest extends React.Component {
                 })
                 .catch(error => console.error(error))
         });
-        function randomID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
 
         fetch('http://localhost:4000/userList', {
             method: 'POST',
@@ -47,7 +45,10 @@ class ContentChest extends React.Component {
                 console.log(data)
             })
             .catch(error => console.error('Error:', error));
+    }
 
+    editingMode() {
+        this.setState(state => ({ editMode: !state.editMode }))
     }
 
 
@@ -55,24 +56,35 @@ class ContentChest extends React.Component {
     render() {
         return (
             <div className='savedMovieWrapper'>
-                <h1>My saved movies</h1>
-                <input type='text' placeholder='username'></input>
-                <div className='savedMovieList'>
-                    {this.state.savedMovies.map((movie, i) => {
-                        return (
-                            <div key={i}>
-                                <div className='savedMovieBlock'>
-                                    <img className='savedMoviePoster' draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}></img>
-                                    <div className='savedMovieTitle' >{movie.title}</div>
-                                </div>
-
-                            </div>
-                        )
-                    })}
+                <div className='savedMovieSelectionMenu'>
+                    <img className='savedMovieBacktoMenu' src={backImage} onClick={() => this.backtoMenu()}></img>
+                    <div onClick={() => this.editingMode()} className='savedMovieEditMode'>Toggle edit mode <img src={editImage} className='savedMovieEdit'></img></div>
                 </div>
+                {this.props.existing ?
+                    <div className='savedMovieList'>
+                        {this.state.savedMovies.map((movie, i) => {
+                            return (
+                                <div key={i}>
+                                    <div className={this.state.editMode ? 'savedMovieBlock' : 'savedMovieBlocknoAnimation'} >
+                                        {this.state.editMode ? <div className='savedMovieDelete'>&times;</div> : null}
+                                        <img className='savedMoviePoster' draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}></img>
+                                        <div className='savedMovieTitle' >{movie.title}</div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    : null
+                }
+                {this.props.newList ?
+                    <div className='savedMovieList'>
+                       <div>Start by adding your first movie.</div>
+                    </div>
+                    : null
+                }
             </div>
         );
     }
 }
 
-export default ContentChest;
+export default MoviesSaved;
