@@ -6,6 +6,10 @@ const userList = new mongoose.Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     movies: {
         type: Array,
     },

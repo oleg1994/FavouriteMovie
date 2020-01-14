@@ -34,17 +34,17 @@ class MoviesSaved extends React.Component {
                 .catch(error => console.error(error))
         });
 
-        fetch('http://localhost:4000/userList', {
-            method: 'POST',
-            body: JSON.stringify({ username: this.state.username, movies: moviesID }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(data => {
-                console.log(data)
-            })
-            .catch(error => console.error('Error:', error));
+        // fetch('http://localhost:4000/userList', {
+        //     method: 'POST',
+        //     body: JSON.stringify({ username: this.state.username, movies: moviesID }),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }).then(res => res.json())
+        //     .then(data => {
+        //         console.log(data)
+        //     })
+        //     .catch(error => console.error('Error:', error));
     }
 
     editingMode() {

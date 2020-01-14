@@ -27,42 +27,33 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
 
-// var path = require('path');
-// var anypath = ['*', '/*', '/*/*','*/*','/*/*'];
-// app.get(anypath, function(req, res) {
-//   res.sendFile(path.join(__dirname, "/public/index.html"), function(err) {
-//     if (err) {
-//       res.status(500).send(err);
-//     }
-//   });
-// });
-
-
-
-
 
 app.post('/userList', (req, res) => {
-    console.log(req.body.movies)
-    if (!req.body.username) {
-        res.send({ error: 'empty' })
+    console.log(req.body)
+    if (req.body.newData === true) {
+        console.log('new')
+        let newUser = new userList({
+            username: req.body.username,
+            password: req.body.password,
+            movies: req.body.movies
+        });
+        newUser.save(function (err, newUser) {
+            console.log(newUser)
+            if (err) return console.error(err);
+        });
     } else {
         userList.find({ username: req.body.username }, function (err, result) {
+            console.log('nihnas')
             if (err) {
-                console.log(err, 'there is error')
-                res.send({ err })
-            }
-            if (result.length) {
-                console.log(result)
-                res.send({ success: 'username exists good to send the data' })
-            } else {
                 console.log('user doesnt exits creating new save')
-                let newUser = new userList({
-                    username: req.body.username,
-                    movies:req.body.movies
-                });
-                newUser.save(function (err, newUser) {
-                    if (err) return console.error(err);
-                });
+            }
+            if (result.length && result.password !== req.body.password) {
+                console.log('username exists but the password is a no no')
+                res.send({ successNot: 'username exists but the password is a no no' })
+            }
+            if (result.length && result.password === req.body.password) {
+                console.log(result)
+                res.send({ success: 'username and password match good to send the data' })
             }
         });
     }
