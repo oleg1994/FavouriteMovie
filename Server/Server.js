@@ -102,7 +102,7 @@ app.post('/moviesData', (req, res) => {
             if (result.length) {
                 console.log(result)
                 //list already exists
-                res.send({ success: 'Data is found.',result })
+                res.send({ success: 'Data is found.', result })
             }
             if (!result.length) {
                 res.send({ fail: 'No list was found with that key' })
@@ -110,9 +110,20 @@ app.post('/moviesData', (req, res) => {
         });
     }
 })
+app.post('/addMovie', (req, res) => {
+    // console.log(req.body)
+    const { movieID, collectionID } = req.body;
+    if (collectionID) {
+        watchList.findOneAndUpdate({ password:collectionID }, { $push: { movies: { "ID": movieID } } }, function (error, success) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(success);
+            }
+        });
 
-
-
+    }
+})
 
 
 app.listen(port, function () {

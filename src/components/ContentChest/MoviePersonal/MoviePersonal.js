@@ -2,10 +2,12 @@ import React from 'react';
 import './MoviePersonal.css';
 import backImage from './../../../images/back.svg'
 import MoviesSaved from '../MoviesSaved/MoviesSaved';
+import MyContext from '../../../MyContext';
 
 
 
 class MoviePersonal extends React.Component {
+    static contextType = MyContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -88,6 +90,8 @@ class MoviePersonal extends React.Component {
                     this.setState({ error: data.fail })
                 }
                 if (data.success) {
+                    this.context.verypickedCollection(this.state.oldPassword)
+                    console.log(this.context)
                     this.setState({ error: null })
                     this.setState({ newList: false })
                     this.setState({ existingList: false })
@@ -115,6 +119,7 @@ class MoviePersonal extends React.Component {
                     this.setState({ error: data.fail })
                 }
                 if (data.success) {
+                    this.context.verypickedCollection(this.state.newPassword)
                     this.setState({ error: null })
                     this.setState({ newList: false })
                     this.setState({ existingList: false })

@@ -3,6 +3,7 @@ import './MovieSearch.css';
 import Trailer from '../Trailer/Trailer'
 import searchIcon from '../../../images/magnifying-glass.svg'
 import MyContext from '../../../MyContext';
+import PopUp from '../../PopUp/PopUp';
 
 let name;
 class MovieSearch extends React.Component {
@@ -26,12 +27,32 @@ class MovieSearch extends React.Component {
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleCaruselSubmit = this.handleCaruselSubmit.bind(this);
+        this.addToCollection = this.addToCollection.bind(this);
     }
-
 
 
     toggleSearch() {
         this.setState(state => ({ isToggleOn: !state.isToggleOn }));
+    }
+
+
+    addToCollection(movieId) {
+        if (this.context.pickedCollection) {
+            this.context.addedToCollection(movieId);
+            fetch('http://localhost:4000/addMovie', {
+            method: 'POST',
+            body: JSON.stringify({ movieID: movieId, collectionID: this.context.pickedCollection }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => {
+               console.log(data)
+            })
+            .catch(error => console.error('Error:', error));
+        }else{
+
+        }
     }
 
 
@@ -148,7 +169,8 @@ class MovieSearch extends React.Component {
                                                     <div className='movieOverview'>{movie.overview ? movie.overview : 'unknown'}</div>
                                                     <div className='movieblockButtons'>
                                                         <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
-                                                        <div className='movieButton'>Add to watch list</div>
+                                                        <div className='movieButton' onClick={() => this.addToCollection(movie.id)}>Add to watch list</div>
+                                                        {this.context.pickedCollection ? null : <PopUp />}
                                                     </div>
                                                 </div>
                                             </div>

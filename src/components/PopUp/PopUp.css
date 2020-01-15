@@ -1,0 +1,10 @@
+.popUp {
+    position: relative;
+    background: blue;
+    width: 22px;
+    height: 60px;
+    display: flex;
+    z-index: 16;
+    left: 0px;
+    top: 0px;
+}
