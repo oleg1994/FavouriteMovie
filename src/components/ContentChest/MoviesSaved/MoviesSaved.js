@@ -3,8 +3,7 @@ import './MoviesSaved.css';
 import editImage from './../../../images/edit.svg'
 import backImage from './../../../images/back.svg'
 
-import movies from './mockMovies.js';
-const moviesID = movies.getMovies();
+
 
 class MoviesSaved extends React.Component {
     constructor(props) {
@@ -12,8 +11,8 @@ class MoviesSaved extends React.Component {
         this.state = {
             apiKey: 'bc4ef851ecf12182fb8bcef42dc17d08',
             savedMovies: [],
-            username: 'spongebob',
-            editMode: false
+            editMode: false,
+            uniqueKey:this.props.uniqKey
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -21,30 +20,31 @@ class MoviesSaved extends React.Component {
 
     }
     componentDidMount(event) {
-        moviesID.forEach(movie => {
-            console.log(movie.ID)
-            fetch(` https://api.themoviedb.org/3/movie/${movie.ID}?api_key=${this.state.apiKey}&language=en-US`)
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.errors) {
-                        this.setState({ savedMovies: [...this.state.savedMovies, data] })
-                        // console.log(this.state.savedMovies)
-                    }
-                })
-                .catch(error => console.error(error))
-        });
-
-        // fetch('http://localhost:4000/userList', {
-        //     method: 'POST',
-        //     body: JSON.stringify({ username: this.state.username, movies: moviesID }),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // }).then(res => res.json())
-        //     .then(data => {
-        //         console.log(data)
-        //     })
-        //     .catch(error => console.error('Error:', error));
+        fetch('http://localhost:4000/moviesData', {
+            method: 'POST',
+            body: JSON.stringify({ key:this.props.uniqKey}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => {
+                if (data.fail) {
+                    console.log(data.fail)
+                }
+                if (data.success) {
+                    data.result[0].movies.forEach(movie => {
+                        fetch(` https://api.themoviedb.org/3/movie/${movie.ID}?api_key=${this.state.apiKey}&language=en-US`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!data.errors) {
+                                    this.setState({ savedMovies: [...this.state.savedMovies, data] })
+                                }
+                            })
+                            .catch(error => console.error(error))
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     editingMode() {
@@ -57,7 +57,7 @@ class MoviesSaved extends React.Component {
         return (
             <div className='savedMovieWrapper'>
                 <div className='savedMovieSelectionMenu'>
-                    <img className='savedMovieBacktoMenu' src={backImage} onClick={() => this.backtoMenu()}></img>
+                    <img className='savedMovieBacktoMenu' src={backImage} draggable="false" onClick={() => this.backtoMenu()} alt='backImage'></img>
                     <div onClick={() => this.editingMode()} className='savedMovieEditMode'>Toggle edit mode <img src={editImage} className='savedMovieEdit'></img></div>
                 </div>
                 {this.props.existing ?
@@ -67,7 +67,7 @@ class MoviesSaved extends React.Component {
                                 <div key={i}>
                                     <div className={this.state.editMode ? 'savedMovieBlock' : 'savedMovieBlocknoAnimation'} >
                                         {this.state.editMode ? <div className='savedMovieDelete'>&times;</div> : null}
-                                        <img className='savedMoviePoster' draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}></img>
+                                        <img className='savedMoviePoster' draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster'></img>
                                         <div className='savedMovieTitle' >{movie.title}</div>
                                     </div>
                                 </div>

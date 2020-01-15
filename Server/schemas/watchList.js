@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 
-const userList = new mongoose.Schema({
-    username: {
+const watchList = new mongoose.Schema({
+    listname: {
         type: String,
         required: true
     },
@@ -18,4 +18,4 @@ const userList = new mongoose.Schema({
         default: Date.now
     }
 });
-module.exports = mongoose.model('list', userList);
+module.exports = mongoose.model('watchList', watchList);

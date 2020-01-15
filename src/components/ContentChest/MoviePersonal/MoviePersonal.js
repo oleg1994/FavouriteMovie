@@ -18,9 +18,8 @@ class MoviePersonal extends React.Component {
             createList: false,
             newName: '',
             newPassword: '',
-            oldName: '',
             oldPassword: '',
-            // newData: false
+            error: ''
 
         };
         // This binding is necessary to make `this` work in the callback
@@ -70,56 +69,62 @@ class MoviePersonal extends React.Component {
         this.setState({ newList: false })
         this.setState({ existingList: false })
         this.setState({ menu: true })
-    }
-    retrieveList(e) {
-        this.setState({ newList: false })
-        this.setState({ existingList: false })
-        this.setState({ menu: false })
-        this.setState({ createList: false })
-        fetch('http://localhost:4000/userList', {
-            method: 'POST',
-            body: JSON.stringify({ username: this.state.oldName, password: this.state.oldPassword }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.successNot) {
-                    this.setState({ menu: true })
-                    console.log("successNot")
-                } else {
-                    console.log(data.movies)
-                    this.setState({ listShow: true })
-                    this.setState({ savedMovies: data.movies })
-                }
-                
-            })
-            .catch(error => console.error('Error:', error));
-        console.log(this.state.valueListName,
-            this.state.valuePassword)
+        this.setState({ error: null })
 
     }
-    createList(e) {
-        // this.setState({ newData: true});
-        this.setState({ newList: false })
-        this.setState({ existingList: false })
-        this.setState({ menu: false })
-        this.setState({ listShow: false })
-        this.setState({ createList: true })
-        fetch('http://localhost:4000/userList', {
+
+    //Existing user
+    retrieveList(e) {
+        fetch('http://localhost:4000/userData', {
             method: 'POST',
-            body: JSON.stringify({ username: this.state.newName, password: this.state.newPassword, newData: true }),
+            body: JSON.stringify({ password: this.state.oldPassword }),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
+                if (data.fail) {
+                    console.log(data.fail)
+                    this.setState({ error: data.fail })
+                }
+                if (data.success) {
+                    this.setState({ error: null })
+                    this.setState({ newList: false })
+                    this.setState({ existingList: false })
+                    this.setState({ menu: false })
+                    this.setState({ createList: false })
+                    this.setState({ listShow: true })
+                }
+
             })
             .catch(error => console.error('Error:', error));
-        console.log(this.state.valueListName,
-            this.state.valuePassword)
+    }
+
+    //NEW USER
+    createList(e) {
+        fetch('http://localhost:4000/userData', {
+            method: 'POST',
+            body: JSON.stringify({ listname: this.state.newName, password: this.state.newPassword, newList: true }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => {
+                if (data.fail) {
+                    console.log(data.fail)
+                    this.setState({ error: data.fail })
+                }
+                if (data.success) {
+                    this.setState({ error: null })
+                    this.setState({ newList: false })
+                    this.setState({ existingList: false })
+                    this.setState({ menu: false })
+                    this.setState({ listShow: false })
+                    this.setState({ createList: true })
+                }
+
+            })
+            .catch(error => console.error('Error:', error));
     }
 
 
@@ -137,10 +142,9 @@ class MoviePersonal extends React.Component {
                 {this.state.existingList ?
                     <form className='savedMovieForm'>
                         <img className='personalBackButton' src={backImage} onClick={() => this.backtoMenu()}></img>
-                        <label htmlFor="List name" className='savedMovieFormLabel'>List name</label>
-                        <input type="text" onChange={this.handleChangeOldName} value={this.state.oldName} className="savedMovieFormInput" id="List name" placeholder="List name" />
-                        <label htmlFor="Password" className='savedMovieFormLabel'>Password</label>
-                        <input type="text" onChange={this.handleChangeOldPassword} value={this.state.oldPassword} className="savedMovieFormInput" id="Password" placeholder="Password" />
+                        <label htmlFor="Password" className='savedMovieFormLabel'>Unique key</label>
+                        <input type="text" onChange={this.handleChangeOldPassword} value={this.state.oldPassword} className="savedMovieFormInput" id="Password" placeholder="unique key" />
+                        {this.state.error ? <div>{this.state.error}</div> : null}
                         <div className='personalContinueButton' onClick={() => this.retrieveList()}>Continue</div>
                     </form>
                     :
@@ -150,20 +154,21 @@ class MoviePersonal extends React.Component {
                     <form className='savedMovieForm'>
                         <img className='personalBackButton' src={backImage} onClick={() => this.backtoMenu()}></img>
                         <label htmlFor="List name" className='savedMovieFormLabel'>List name</label>
-                        <input type="text" onChange={this.handleChangeName} value={this.state.newName} className="savedMovieFormInput" id="List name" placeholder="List name" />
-                        <label htmlFor="Password" className='savedMovieFormLabel'>Password</label>
-                        <input type="text" onChange={this.handleChangePassword} value={this.state.newPassword} className="savedMovieFormInput" id="Password" placeholder="Password" />
+                        <input type="text" onChange={this.handleChangeName} value={this.state.newName} className="savedMovieFormInput" id="List name" placeholder="list name" />
+                        <label htmlFor="Password" className='savedMovieFormLabel'>Unique key</label>
+                        <input type="text" onChange={this.handleChangePassword} value={this.state.newPassword} className="savedMovieFormInput" id="Password" placeholder="unique key" />
+                        {this.state.error ? <div>{this.state.error}</div> : null}
                         <div className='personalContinueButton' onClick={() => this.createList()}>Continue</div>
                     </form>
                     :
                     null
                 }
                 {this.state.listShow ?
-                    <MoviesSaved existing={this.state.listShow}></MoviesSaved>
+                    <MoviesSaved existing={this.state.listShow} uniqKey={this.state.oldPassword}></MoviesSaved>
                     : null
                 }
                 {this.state.createList ?
-                    <MoviesSaved newList={this.state.createList}></MoviesSaved>
+                    <MoviesSaved newList={this.state.createList} uniqKey={this.state.newPassword}></MoviesSaved>
                     : null
                 }
             </div>

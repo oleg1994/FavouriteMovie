@@ -13,7 +13,7 @@ app.use(express.json());
 
 
 //Exports
-const userList = require('./schemas/userList')
+const watchList = require('./schemas/watchList')
 
 
 
@@ -27,37 +27,93 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
 
+// var path = require('path');
+// var anypath = ['*', '/*', '/*/*','*/*','/*/*'];
+// app.get(anypath, function(req, res) {
+//   res.sendFile(path.join(__dirname, "/public/index.html"), function(err) {
+//     if (err) {
+//       res.status(500).send(err);
+//     }
+//   });
+// });
 
-app.post('/userList', (req, res) => {
-    console.log(req.body)
-    if (req.body.newData === true) {
-        console.log('new')
-        let newUser = new userList({
-            username: req.body.username,
-            password: req.body.password,
-            movies: req.body.movies
-        });
-        newUser.save(function (err, newUser) {
-            console.log(newUser)
-            if (err) return console.error(err);
-        });
-    } else {
-        userList.find({ username: req.body.username }, function (err, result) {
-            console.log('nihnas')
+
+
+
+
+app.post('/userData', (req, res) => {
+    // console.log(req.body)
+    const { listname, password, newList } = req.body;
+
+    if (newList && password && listname) {
+        watchList.find({ password: password }, function (err, result) {
             if (err) {
-                console.log('user doesnt exits creating new save')
+                console.log(err, 'there is error')
+                res.send({ err })
             }
-            if (result.length && result.password !== req.body.password) {
-                console.log('username exists but the password is a no no')
-                res.send({ successNot: 'username exists but the password is a no no' })
-            }
-            if (result.length && result.password === req.body.password) {
+            if (result.length) {
                 console.log(result)
-                res.send({ success: 'username and password match good to send the data' })
+                //list already exists
+                res.send({ fail: 'That key is already in use.' })
+            }
+            if (!result.length) {
+                var newListing = new watchList({
+                    listname: listname,
+                    password: password,
+                });
+                newListing.save(function (err) {
+                    if (err) {
+                        console.error(err)
+                    } else {
+                        console.log('success created new list')
+                    }
+                });
+                res.send({ success: 'new list created' })
+            }
+        });
+    }
+    if (!newList && password) {
+        watchList.find({ password: password }, function (err, result) {
+            if (err) {
+                console.log(err, 'there is error')
+                res.send({ err })
+            }
+            if (result.length) {
+                console.log(result)
+                //list already exists
+                res.send({ success: result })
+            }
+            if (!result.length) {
+                res.send({ fail: `List with that key doesn't exist.` })
             }
         });
     }
 })
+
+app.post('/moviesData', (req, res) => {
+    // console.log(req.body)
+    const { key } = req.body;
+    if (key) {
+        watchList.find({ password: key }, function (err, result) {
+            if (err) {
+                console.log(err, 'there is error')
+                res.send({ err })
+            }
+            if (result.length) {
+                console.log(result)
+                //list already exists
+                res.send({ success: 'Data is found.',result })
+            }
+            if (!result.length) {
+                res.send({ fail: 'No list was found with that key' })
+            }
+        });
+    }
+})
+
+
+
+
 
 app.listen(port, function () {
     console.log('server port', port)
