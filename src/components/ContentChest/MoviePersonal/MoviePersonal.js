@@ -90,7 +90,7 @@ class MoviePersonal extends React.Component {
                     this.setState({ error: data.fail })
                 }
                 if (data.success) {
-                    this.context.verypickedCollection(this.state.oldPassword)
+                    this.context.updateKey(this.state.oldPassword)
                     console.log(this.context)
                     this.setState({ error: null })
                     this.setState({ newList: false })
@@ -119,7 +119,7 @@ class MoviePersonal extends React.Component {
                     this.setState({ error: data.fail })
                 }
                 if (data.success) {
-                    this.context.verypickedCollection(this.state.newPassword)
+                    this.context.updateKey(this.state.newPassword)
                     this.setState({ error: null })
                     this.setState({ newList: false })
                     this.setState({ existingList: false })

@@ -12,6 +12,8 @@ class MovieSearch extends React.Component {
         super(props);
         this.state = {
             isToggleOn: false,
+            popUpToggle: false,
+            popUpErrorText: '',
             value: '',
             movies: [],
             selectedMovie: '',
@@ -37,6 +39,7 @@ class MovieSearch extends React.Component {
 
 
     addToCollection(movieId) {
+        this.setState(state => ({ popUpToggle: false }));
         if (this.context.pickedCollection) {
             this.context.addedToCollection(movieId);
             fetch('http://localhost:4000/addMovie', {
@@ -48,10 +51,15 @@ class MovieSearch extends React.Component {
         }).then(res => res.json())
             .then(data => {
                console.log(data)
+               if (data.exist) {
+                this.setState(state => ({ popUpToggle: !state.popUpToggle }));
+                this.setState({ popUpErrorText: data.exist });
+               }
             })
             .catch(error => console.error('Error:', error));
         }else{
-
+            this.setState(state => ({ popUpToggle: !state.popUpToggle }));
+            this.setState({ popUpErrorText: 'Please register a new list' });
         }
     }
 
@@ -140,6 +148,9 @@ class MovieSearch extends React.Component {
             divScrolling[0].style.border = 'none';
             this.setState({ value: '' });
         }
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.setState({ popUpToggle: false });
+        }
     }
 
     render() {
@@ -170,7 +181,8 @@ class MovieSearch extends React.Component {
                                                     <div className='movieblockButtons'>
                                                         <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
                                                         <div className='movieButton' onClick={() => this.addToCollection(movie.id)}>Add to watch list</div>
-                                                        {this.context.pickedCollection ? null : <PopUp />}
+
+                                                        {this.context.selectedMovie === movie.id && this.state.popUpToggle ? <PopUp popUpErrorText={this.state.popUpErrorText}/> : null }
                                                     </div>
                                                 </div>
                                             </div>

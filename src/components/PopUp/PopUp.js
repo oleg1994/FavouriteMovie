@@ -14,7 +14,7 @@ class PopUp extends React.Component {
 
     render() {
         return (
-            <div className='popUp'>Please choose a cllection</div>
+        <div className='popUp'>{this.props.popUpErrorText}</div>
         );
     }
 }

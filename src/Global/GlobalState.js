@@ -5,7 +5,7 @@ import MyContext from './../MyContext';
 class GlobalState extends Component {
     state = {
         title: '',
-        addedToCollection: '',
+        selectedMovie: '',
         pickedCollection: '',
     };
 
@@ -13,12 +13,16 @@ class GlobalState extends Component {
         console.log('update function triggered', title)
         this.setState({ title: title });
     }
-    addedToCollection = addedToCollection => {
-        this.setState({ addedToCollection: addedToCollection });
-        console.log('triggered', addedToCollection)
+
+
+    addedToCollection = selectedMovie => {
+        this.setState({ selectedMovie: selectedMovie });
+        console.log('triggered', selectedMovie)
     }
-    verypickedCollection = pickedCollection => {
-        this.setState({ pickedCollection: pickedCollection });
+
+
+    updateKey = key => {
+        this.setState({ pickedCollection: key });
         console.log('triggered')
     }
 
@@ -28,7 +32,8 @@ class GlobalState extends Component {
                 value={{
                     title: this.state.title,
                     pickedCollection: this.state.pickedCollection,
-                    verypickedCollection: this.verypickedCollection,
+                    selectedMovie:this.state.selectedMovie,
+                    updateKey: this.updateKey,
                     updateTitle: this.updateTitle,
                     addedToCollection: this.addedToCollection,
                 }}

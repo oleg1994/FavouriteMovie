@@ -13,18 +13,19 @@ class MoviesSaved extends React.Component {
             apiKey: 'bc4ef851ecf12182fb8bcef42dc17d08',
             savedMovies: [],
             editMode: false,
-            uniqueKey:this.props.uniqKey,
+            uniqueKey: this.props.uniqKey,
             newMovie: ""
         };
 
         // This binding is necessary to make `this` work in the callback
         this.editingMode = this.editingMode.bind(this);
+        this.removeMovie = this.removeMovie.bind(this);
 
     }
     componentDidMount(event) {
         fetch('http://localhost:4000/moviesData', {
             method: 'POST',
-            body: JSON.stringify({ key:this.props.uniqKey}),
+            body: JSON.stringify({ key: this.props.uniqKey }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -52,39 +53,41 @@ class MoviesSaved extends React.Component {
     editingMode() {
         this.setState(state => ({ editMode: !state.editMode }))
     }
-
-    componentDidUpdate(prevProps, prevState) {
-        this.setState({ newMovie: this.context.addedToCollection })
-        if (prevState.newMovie !== this.context.addedToCollection) {
-            // this.setState({ newMovie: this.context.addedToCollection })
-            console.log('tuftA')
-            console.log(prevState.newMovie)
-        fetch('http://localhost:4000/moviesData', {
+    removeMovie(movie) {
+        console.log(movie)
+        fetch('http://localhost:4000/removeMovie', {
             method: 'POST',
-            body: JSON.stringify({ key:this.props.uniqKey}),
+            body: JSON.stringify({ key: this.props.uniqKey,removeID:movie }),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
             .then(data => {
-                if (data.fail) {
-                    console.log(data.fail)
+                if(data.success){
+                    const removefromDom = this.state.savedMovies.filter(item => item.id !== movie)
+                    this.setState({ savedMovies: removefromDom })
                 }
-                if (data.success) {
-                    data.result[0].movies.forEach(movie => {
-                        fetch(` https://api.themoviedb.org/3/movie/${movie.ID}?api_key=${this.state.apiKey}&language=en-US`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (!data.errors) {
-                                    this.setState({ savedMovies: [...this.state.savedMovies, data] })
-                                }
-                            })
-                            .catch(error => console.error(error))
-                    });
-                }
+               
             })
             .catch(error => console.error('Error:', error));
-    }}
+    }
+
+    
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.newMovie !== this.context.selectedMovie) {
+            this.setState({ newMovie: this.context.selectedMovie })
+            fetch(` https://api.themoviedb.org/3/movie/${this.context.selectedMovie}?api_key=${this.state.apiKey}&language=en-US`)
+                .then(response => response.json())
+                .then(dataApi => {
+                    this.setState({ savedMovies: [...this.state.savedMovies, dataApi] })
+                })
+                .catch(error => console.error(error))
+        }
+
+    }
+
+
+
 
 
     render() {
@@ -100,9 +103,9 @@ class MoviesSaved extends React.Component {
                             return (
                                 <div key={i}>
                                     <div className={this.state.editMode ? 'savedMovieBlock' : 'savedMovieBlocknoAnimation'} >
-                                        {this.state.editMode ? <div className='savedMovieDelete'>&times;</div> : null}
-                                        <img className='savedMoviePoster' draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster'></img>
-                                        <div className='savedMovieTitle' >{movie.title}</div>
+                                        {this.state.editMode ? <div className='savedMovieDelete' onClick={()=>this.removeMovie(movie.id)}>&times;</div> : null}
+                                        <img className='savedMoviePoster' id={this.state.savedMovies[i].id} onClick={(event) => {this.context.updateTitle(event.target.id) }} draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`} alt='poster'></img>
+                                        <div className='savedMovieTitle' id={this.state.savedMovies[i].id} onClick={(event) => {this.context.updateTitle(event.target.id) }} draggable="false" src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}>{movie.title}</div>
                                     </div>
                                 </div>
                             )
@@ -112,7 +115,7 @@ class MoviesSaved extends React.Component {
                 }
                 {this.props.newList ?
                     <div className='savedMovieList'>
-                       <div>Start by adding your first movie.</div>
+                        <div>Start by adding your first movie.</div>
                     </div>
                     : null
                 }

@@ -114,11 +114,48 @@ app.post('/addMovie', (req, res) => {
     // console.log(req.body)
     const { movieID, collectionID } = req.body;
     if (collectionID) {
-        watchList.findOneAndUpdate({ password:collectionID }, { $push: { movies: { "ID": movieID } } }, function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(success);
+        watchList.find({ password: collectionID, movies: { "ID": movieID } }, function (err, result) {
+            if (err) {
+                console.log(err, 'there is error')
+                res.send({ err })
+            }
+            if (result.length) {
+                //list already exists
+                res.send({ exist: 'This is already in your list' })
+            }
+            if (!result.length) {
+                watchList.findOneAndUpdate({ password: collectionID }, { $push: { movies: { "ID": movieID } } }, function (error, success) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log(success);
+                        res.send({ success: 'added to database' })
+
+                    }
+                });
+            }
+
+        });
+
+    }
+})
+app.post('/removeMovie', (req, res) => {
+    // console.log(req.body)
+    const { removeID, key } = req.body;
+    if (removeID) {
+        watchList.find({ password: key, movies: { "ID": removeID } }, function (err, result) {
+            if (err) {
+                console.log(err, 'there is error')
+                res.send({ err })
+            }
+            if (result.length) {
+                watchList.updateOne({ password: key }, { $pull: { 'movies': { 'ID': removeID } } }, function (error, success) {
+                    console.log(error)
+                    console.log(success)
+                    if(success){
+                        res.send({success:'removed'})
+                    }
+                })
             }
         });
 
