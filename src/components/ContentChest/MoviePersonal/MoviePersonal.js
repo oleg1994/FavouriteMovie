@@ -169,7 +169,7 @@ class MoviePersonal extends React.Component {
                     null
                 }
                 {this.state.listShow ?
-                    <MoviesSaved existing={this.state.listShow} uniqKey={this.state.oldPassword}></MoviesSaved>
+                    <MoviesSaved existing={this.state.listShow} uniqKey={this.state.oldPassword} ></MoviesSaved>
                     : null
                 }
                 {this.state.createList ?

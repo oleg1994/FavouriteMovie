@@ -22,6 +22,7 @@
     height: 300px;
     width: 200px;
 }
+
 .savedMovieBlocknoAnimation {
     margin-left: 20px;
     margin-bottom: 30px;
@@ -97,37 +98,54 @@
     z-index: 8040;
     background: #535865;
 }
+
 .savedMovieDelete:hover {
-    border-color:red;
+    border-color: red;
 }
+
 .savedMovieSelectionMenu {
     display: flex;
     flex-direction: row;
+    width: 300px;
+    height: 60px;
 }
+
 .savedMovieEditMode {
-    border:white solid 2px;
+    border: white solid 2px;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
-    color:white;
-    margin-top:10px;
-    margin-bottom:10px;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
     user-select: none;
     padding: 10px;
 }
+
 .savedMovieEditMode:hover {
     cursor: pointer;
     border-color: green;
 }
 
 .savedMovieEdit {
-    margin-left:5px;
-    height: 25px;
-    width: 25px;
-}
-.savedMovieBacktoMenu {
+    margin-left: 5px;
     height: 25px;
     width: 25px;
 }
 
+.savedMovieBacktoMenu {
+   border:2px white solid;
+   margin-top: 10px;
+   margin-bottom: 10px;
+
+}
+
+
+.savedMovieAddFirst { 
+    color: #71c208;
+    margin: 0px auto;
+    width: 100%; 
+    max-width: 500px;
+} 

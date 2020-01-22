@@ -14,6 +14,7 @@ class MovieSearch extends React.Component {
             isToggleOn: false,
             popUpToggle: false,
             popUpErrorText: '',
+            popUpID: '',
             value: '',
             movies: [],
             selectedMovie: '',
@@ -39,25 +40,31 @@ class MovieSearch extends React.Component {
 
 
     addToCollection(movieId) {
-        this.setState(state => ({ popUpToggle: false }));
+        //popUpID saves to state the movie id to compare it with movie id from map in dom making the pop up show only at selected element(cycle)
+        this.setState({popUpID:movieId})
+        // sets pop up to false before checking anything, basically closes the previous open popups before creating new one
+        this.setState(({ popUpToggle: false }));
+
+        //checks if user has collection(unique key) registered
         if (this.context.pickedCollection) {
             this.context.addedToCollection(movieId);
             fetch('http://localhost:4000/addMovie', {
-            method: 'POST',
-            body: JSON.stringify({ movieID: movieId, collectionID: this.context.pickedCollection }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(data => {
-               console.log(data)
-               if (data.exist) {
-                this.setState(state => ({ popUpToggle: !state.popUpToggle }));
-                this.setState({ popUpErrorText: data.exist });
-               }
-            })
-            .catch(error => console.error('Error:', error));
-        }else{
+                method: 'POST',
+                body: JSON.stringify({ movieID: movieId, collectionID: this.context.pickedCollection }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.exist) {
+                        this.setState(state => ({ popUpToggle: !state.popUpToggle }));
+                        this.setState({ popUpErrorText: data.exist });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            //shows error message cus user has no collection(unique key)
             this.setState(state => ({ popUpToggle: !state.popUpToggle }));
             this.setState({ popUpErrorText: 'Please register a new list' });
         }
@@ -69,6 +76,7 @@ class MovieSearch extends React.Component {
     }
 
     handleSubmit(event) {
+        //search for movies
         event.preventDefault();
         this.setState({ animate: true });
         setTimeout(() => {
@@ -89,6 +97,7 @@ class MovieSearch extends React.Component {
     }
 
     handleCaruselSubmit() {
+        //handles the received movie id from carusel component
         console.log(this.state.selectedMovie)
         // fetch(`https://api.themoviedb.org/3/find/movie?api_key=${this.state.apiKey}&language=en-US&query=${this.state.selectedMovie}&page=1&include_adult=false`)
         if (this.state.selectedMovie) {
@@ -113,6 +122,7 @@ class MovieSearch extends React.Component {
 
 
     componentDidMount(event) {
+        //part of clickoutside detector
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -124,6 +134,7 @@ class MovieSearch extends React.Component {
     // setState inside this will cause infinite loop
 
     componentDidUpdate(prevProps, prevState) {
+        //searches for a movie by id received from carusel component 
         if (prevState.selectedMovie !== this.context.title) {
             this.setState({ selectedMovie: this.context.title });
             this.handleCaruselSubmit();
@@ -133,6 +144,7 @@ class MovieSearch extends React.Component {
 
 
     componentWillUnmount() {
+        //part of clickoutside detector
         document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -179,14 +191,14 @@ class MovieSearch extends React.Component {
                                                     <div className='movieRelease'>Release date: {movie.release_date ? movie.release_date : 'unknown'}</div>
                                                     <div className='movieOverview'>{movie.overview ? movie.overview : 'unknown'}</div>
                                                     <div className='movieblockButtons'>
-                                                        <div className='movieButton' onClick={() => this.setState({ trailer: movie.id })}>Watch trailer</div>
-                                                        <div className='movieButton' onClick={() => this.addToCollection(movie.id)}>Add to watch list</div>
+                                                        <div className='movieButton' onClick={() => (this.setState({ trailer: movie.id }),this.context.conditionalTrailerRender(true))}>Watch trailer</div>
+                                                        <div className='movieButton'  onClick={() => this.addToCollection(movie.id)}>Add to watch list</div>
 
-                                                        {this.context.selectedMovie === movie.id && this.state.popUpToggle ? <PopUp popUpErrorText={this.state.popUpErrorText}/> : null }
+                                                        {this.state.popUpID === movie.id && this.state.popUpToggle ? <PopUp popUpErrorText={this.state.popUpErrorText} /> : null}
                                                     </div>
                                                 </div>
                                             </div>
-                                            {movie.id === this.state.trailer ? <Trailer movieID={this.state.trailer} /> : null}
+                                            {movie.id === this.state.trailer && this.context.trailerCondition ? <Trailer movieID={this.state.trailer} /> : null}
                                         </div>
                                     )
                                 })

@@ -1,7 +1,10 @@
 import React from 'react';
 import './Trailer.css';
+import MyContext from '../../../MyContext';
+
 
 class Trailer extends React.Component {
+  static contextType = MyContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +37,7 @@ class Trailer extends React.Component {
             {this.state.trailer ?
               <div className='modal'>
                 <div className="modal-content">
-                  <span className="close" onClick={() => this.setState({ modal: false })}>&times;</span>
+                  <span className="close" onClick={() => (this.setState({ modal: false }),this.context.conditionalTrailerRender(false))}>&times;</span>
                   <iframe
                     title='trailer'
                     style={{
@@ -49,7 +52,7 @@ class Trailer extends React.Component {
               :
               <div className='modal'>
               <div className="modal-content">
-                <span className="close" onClick={() => this.setState({ modal: false })}>&times;</span>
+                <span className="close" onClick={() => (this.setState({ modal: false }),this.context.conditionalTrailerRender(false))}>&times;</span>
                 <div className='noTrailerFound'>'Trailer not found or not yet released.'</div>
               </div>
             </div>

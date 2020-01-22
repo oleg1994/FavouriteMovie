@@ -1,12 +1,18 @@
 import React from 'react';
 import './Header.css';
-import {MyConsumer} from '../../MyContext'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 class Header extends React.Component {
   render() {
     return (
       <div className='Header'>
-          <div className='Logo'>Save & wait</div>
+         
+          <Link to="/"> <div className='Logo'>Save & wait</div></Link>
           <div>button</div>
           <div>button</div>
           <div>button</div>
