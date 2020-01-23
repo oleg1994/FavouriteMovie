@@ -4,13 +4,16 @@
 }
 
 .popUp {
-    margin-left: 50px;
+    margin-left: 30px;
     position: absolute;
-    padding: 3px;
-    background: white;
+    padding: 5px;
+    background: #161618;
+    color: white;
+    /* border: solid white 2px; */
+    border-right: solid white 2px;;
     height: 50px;
     width: 100px;
-    font-size: 15px;
+    font-size: 0.9rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -29,12 +32,27 @@
     user-select: none;
 }
 
-.popUpTry {
+.popUpTriangle{
     content: "";
     position: relative;
+    top:0;
+    left:-20px;
     height: 50px;
-    margin-left: 0px;
     border-width: 25px;
     border-style: solid;
     border-color: transparent white transparent transparent;
+}
+
+
+@media screen and (max-width: 600px) {
+    .popUp {
+        margin-left: 0px;
+
+    }
+    
+    .popUpTry {
+        border-width: 0px;
+    }
+    
+
 }

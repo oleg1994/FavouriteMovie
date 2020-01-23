@@ -5,6 +5,7 @@ import backImage from './../../../images/back.svg'
 import MyContext from '../../../MyContext'
 
 
+
 class MoviesSaved extends React.Component {
     static contextType = MyContext;
     constructor(props) {
@@ -13,8 +14,9 @@ class MoviesSaved extends React.Component {
             apiKey: 'bc4ef851ecf12182fb8bcef42dc17d08',
             savedMovies: [],
             editMode: false,
-            uniqueKey: this.props.uniqKey,
-            newMovie: ""
+            uniqueKey: this.props.match.url.substr(1),
+            newMovie: "",
+            noExistentList: ''
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -22,10 +24,12 @@ class MoviesSaved extends React.Component {
         this.removeMovie = this.removeMovie.bind(this);
 
     }
-    componentDidMount(event) {
+    componentDidMount(event, match) {
+        this.context.passingHistory(this.props.history)
+        console.log(this.context.movieSavedCondition)
         fetch('http://localhost:4000/moviesData', {
             method: 'POST',
-            body: JSON.stringify({ key: this.props.uniqKey }),
+            body: JSON.stringify({ key: this.state.uniqueKey }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -33,6 +37,7 @@ class MoviesSaved extends React.Component {
             .then(data => {
                 if (data.fail) {
                     console.log(data.fail)
+                    this.setState({ noExistentList: data.fail })
                 }
                 if (data.success) {
                     data.result[0].movies.forEach(movie => {
@@ -57,7 +62,7 @@ class MoviesSaved extends React.Component {
         console.log(movie)
         fetch('http://localhost:4000/removeMovie', {
             method: 'POST',
-            body: JSON.stringify({ key: this.props.uniqKey, removeID: movie }),
+            body: JSON.stringify({ key: this.state.uniqueKey, removeID: movie }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -79,10 +84,10 @@ class MoviesSaved extends React.Component {
             fetch(` https://api.themoviedb.org/3/movie/${this.context.selectedMovie}?api_key=${this.state.apiKey}&language=en-US`)
                 .then(response => response.json())
                 .then(dataApi => {
-                    let checkifDup = this.state.savedMovies.filter(function(item) {
+                    let checkifDup = this.state.savedMovies.filter(function (item) {
                         return item.id === dataApi.id
                     });
-                    if(checkifDup.length === 0){
+                    if (checkifDup.length === 0) {
                         this.setState({ savedMovies: [...this.state.savedMovies, dataApi] })
                     }
                 })
@@ -99,10 +104,10 @@ class MoviesSaved extends React.Component {
         return (
             <div className='savedMovieWrapper'>
                 <div className='savedMovieSelectionMenu'>
-                    <img className='savedMovieBacktoMenu' src={backImage} draggable="false" onClick={() => this.backtoMenu()} alt='backImage'></img>
+                    <img className='savedMovieBacktoMenu' src={backImage} draggable="false" onClick={() => this.props.history.push('/')} alt='backImage'></img>
                     <div onClick={() => this.editingMode()} className='savedMovieEditMode'>Toggle edit mode <img src={editImage} className='savedMovieEdit'></img></div>
                 </div>
-                {this.props.existing ?
+                {this.context.movieSavedCondition === undefined && !this.state.noExistentList ?
                     <div className='savedMovieList'>
                         {this.state.savedMovies.map((movie, i) => {
                             return (
@@ -118,7 +123,13 @@ class MoviesSaved extends React.Component {
                     </div>
                     : null
                 }
-                {this.props.newList ?
+                {this.state.noExistentList ?
+                    <div className='savedMovieList'>
+                        <h1 className='savedMovieAddFirst'>{this.state.noExistentList}</h1>
+                    </div>
+                    : null
+                }
+                {this.context.movieSavedCondition === 'newList' ?
                     <div className='savedMovieList'>
                         {this.state.savedMovies.length ?
                             this.state.savedMovies.map((movie, i) => {

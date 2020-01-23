@@ -1,21 +1,21 @@
 import React from 'react';
 import './Header.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import MyContext from '../../MyContext';
+
 
 class Header extends React.Component {
+  static contextType = MyContext;
+  constructor(props) {
+      super(props);
+      this.state = {
+      };
+
+      // This binding is necessary to make `this` work in the callback
+  }
   render() {
     return (
       <div className='Header'>
-         
-          <Link to="/"> <div className='Logo'>Save & wait</div></Link>
-          <div>button</div>
-          <div>button</div>
-          <div>button</div>
+          <div className='Logo' onClick={()=>(console.log(this.context.browsedHistory.push('/')))}>My Favourite movies</div>
       </div>
     );
   }

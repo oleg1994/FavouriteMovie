@@ -15,7 +15,7 @@ class PopUp extends React.Component {
     render() {
         return (
             <div className='popUpWrapper'>
-                <div className='popUpTry'></div>
+                <div className='popUpTriangle'></div>
                 <div className='popUp'>{this.props.popUpErrorText}</div>
             </div>
         );

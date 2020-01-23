@@ -1,5 +1,5 @@
 .savedMovieForm{
-    margin-top:100px;
+    margin:80px auto;
     display: flex;
     flex-direction: column;
     justify-content: center;  
@@ -73,6 +73,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    
 }
 
 .personalBackButton{
@@ -95,6 +96,7 @@
 .personalContinueButton{
     display: flex;
     justify-content: center;
+    align-content: center;
     align-items: center;
     text-align: center;
     border:2px solid #008000;
@@ -105,4 +107,8 @@
     color:#0f5579;
     cursor: pointer;
     background:#00800046;
+}
+
+.moviePersonalError{
+    margin-bottom: 10px;
 }

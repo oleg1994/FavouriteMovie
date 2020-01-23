@@ -7,7 +7,9 @@ class GlobalState extends Component {
         title: '',
         selectedMovie: '',
         pickedCollection: '',
-        trailerCondition:false
+        trailerCondition:false,
+        conditionalMovieSavedRender:'',
+        browsedHistory:''
     };
 
     updateTitle = title => {
@@ -30,6 +32,14 @@ class GlobalState extends Component {
         this.setState(({ trailerCondition: condition }));
         console.log('conditionTrailer',condition)
     }
+    conditionalMovieSavedRender = (condition) => {
+        this.setState(({ movieSavedCondition: condition }));
+        console.log('movieSavedCondition',condition)
+    }
+    passingHistory = (history) => {
+        this.setState(({ browsedHistory: history }));
+        console.log('movieSavedCondition',history)
+    }
 
     render() {
         return (
@@ -40,12 +50,16 @@ class GlobalState extends Component {
                     pickedCollection: this.state.pickedCollection,
                     selectedMovie:this.state.selectedMovie,
                     trailerCondition:this.state.trailerCondition,
+                    movieSavedCondition:this.state.movieSavedCondition,
+                    browsedHistory:this.state.browsedHistory,
 
                     //functions
                     updateKey: this.updateKey,
                     updateTitle: this.updateTitle,
                     addedToCollection: this.addedToCollection,
                     conditionalTrailerRender: this.conditionalTrailerRender,
+                    conditionalMovieSavedRender: this.conditionalMovieSavedRender,
+                    passingHistory: this.passingHistory,
                 }}
             >
                 {this.props.children}

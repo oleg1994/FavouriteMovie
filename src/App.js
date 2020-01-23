@@ -17,15 +17,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
       <div className='App'>
         <GlobalState>
-          <Header/>
-          <ContentChest/>
-          <Footer/>
+          <Router>
+            <Header />
+            <ContentChest />
+            <Footer />
+          </Router>
         </GlobalState>
       </div>
-      </Router>
     );
   }
 }
