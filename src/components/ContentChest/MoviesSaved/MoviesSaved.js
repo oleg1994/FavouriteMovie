@@ -16,13 +16,12 @@ class MoviesSaved extends React.Component {
             editMode: false,
             uniqueKey: this.props.match.url.substr(1),
             newMovie: "",
-            noExistentList: ''
+            noExistentList: '',
+            listName: ''
         };
-
         // This binding is necessary to make `this` work in the callback
         this.editingMode = this.editingMode.bind(this);
         this.removeMovie = this.removeMovie.bind(this);
-
     }
     componentDidMount(event, match) {
         this.context.passingHistory(this.props.history)
@@ -40,6 +39,8 @@ class MoviesSaved extends React.Component {
                     this.setState({ noExistentList: data.fail })
                 }
                 if (data.success) {
+                    console.log(data.result[0].listname)
+                    this.setState({ listName: data.result[0].listname })
                     data.result[0].movies.forEach(movie => {
                         fetch(` https://api.themoviedb.org/3/movie/${movie.ID}?api_key=${this.state.apiKey}&language=en-US`)
                             .then(response => response.json())
@@ -103,6 +104,7 @@ class MoviesSaved extends React.Component {
     render() {
         return (
             <div className='savedMovieWrapper'>
+                <div className='savedMovieListName'>{this.state.listName}</div>
                 <div className='savedMovieSelectionMenu'>
                     <img className='savedMovieBacktoMenu' src={backImage} draggable="false" onClick={() => this.props.history.push('/')} alt='backImage'></img>
                     <div onClick={() => this.editingMode()} className='savedMovieEditMode'>Toggle edit mode <img src={editImage} className='savedMovieEdit'></img></div>

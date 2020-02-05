@@ -16,7 +16,7 @@ class Footer extends React.Component {
     render() {
         return (
             <div className="footer">
-            <p>All contents © Copyright Michael & Oleg , Inc.2019-2020. All Rights Reserved. </p>
+            <p>Made by Michael & Oleg.</p>
           </div>
         );
     }
