@@ -26,7 +26,7 @@ class MoviesSaved extends React.Component {
     componentDidMount(event, match) {
         this.context.passingHistory(this.props.history)
         console.log(this.context.movieSavedCondition)
-        fetch('http://localhost:4000/moviesData', {
+        fetch('/moviesData', {
             method: 'POST',
             body: JSON.stringify({ key: this.state.uniqueKey }),
             headers: {
@@ -61,7 +61,7 @@ class MoviesSaved extends React.Component {
     }
     removeMovie(movie) {
         console.log(movie)
-        fetch('http://localhost:4000/removeMovie', {
+        fetch('/removeMovie', {
             method: 'POST',
             body: JSON.stringify({ key: this.state.uniqueKey, removeID: movie }),
             headers: {

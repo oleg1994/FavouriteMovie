@@ -84,7 +84,7 @@ class MoviePersonal extends React.Component {
     retrieveList(e) {
         e.preventDefault();
         if(this.state.oldPassword){
-        fetch('http://localhost:4000/userData', {
+        fetch('/userData', {
             method: 'POST',
             body: JSON.stringify({ password: this.state.oldPassword }),
             headers: {
@@ -119,7 +119,7 @@ class MoviePersonal extends React.Component {
     createList(e) {
         e.preventDefault();
         if (this.state.newName && this.state.newPassword) {
-            fetch('http://localhost:4000/userData', {
+            fetch('/userData', {
                 method: 'POST',
                 body: JSON.stringify({ listname: this.state.newName, password: this.state.newPassword, newList: true }),
                 headers: {

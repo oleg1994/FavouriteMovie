@@ -48,7 +48,7 @@ class MovieSearch extends React.Component {
         //checks if user has collection(unique key) registered
         if (this.context.pickedCollection) {
             this.context.addedToCollection(movieId);
-            fetch('http://localhost:4000/addMovie', {
+            fetch('/addMovie', {
                 method: 'POST',
                 body: JSON.stringify({ movieID: movieId, collectionID: this.context.pickedCollection }),
                 headers: {
