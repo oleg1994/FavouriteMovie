@@ -27,15 +27,15 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
 
-// var path = require('path');
-// var anypath = ['*', '/*', '/*/*','*/*','/*/*'];
-// app.get(anypath, function(req, res) {
-//   res.sendFile(path.join(__dirname, "/public/index.html"), function(err) {
-//     if (err) {
-//       res.status(500).send(err);
-//     }
-//   });
-// });
+var path = require('path');
+var anypath = ['*', '/*', '/*/*','*/*','/*/*'];
+app.get(anypath, function(req, res) {
+  res.sendFile(path.join(__dirname, "/public/index.html"), function(err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
 
 
 
