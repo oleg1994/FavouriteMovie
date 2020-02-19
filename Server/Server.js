@@ -9,7 +9,8 @@ const port = process.env.PORT || 4000;
 // App ~uses~
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '/build')));
+app.use(express.static('build'))
+
 // mongoose.set('useFindAndModify', false);
 
 
@@ -31,7 +32,7 @@ db.once('open', function () {
 var path = require('path');
 var anypath = ['*', '/*', '/*/*','*/*','/*/*'];
 app.get(anypath, function(req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"), function(err) {
+  res.sendFile(path.join(__dirname, "index.html"), function(err) {
     if (err) {
       res.status(500).send(err);
     }
