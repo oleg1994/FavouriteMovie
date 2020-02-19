@@ -6,6 +6,7 @@ const port = process.env.PORT || 4000;
 
 
 
+
 // App ~uses~
 app.use(cors());
 app.use(express.json());
@@ -27,10 +28,12 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
 
+const publicPath = path.join(__dirname, '..', 'public')
 var path = require('path');
 var anypath = ['*', '/*', '/*/*','*/*','/*/*'];
-app.get(anypath, function(req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"), function(err) {
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(publicPath, "index.html"), function(err) {
     if (err) {
       res.status(500).send(err);
     }
