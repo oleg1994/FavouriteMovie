@@ -9,8 +9,7 @@ const port = process.env.PORT || 4000;
 // App ~uses~
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'))
-
+app.use(express.static(path.join(__dirname, '/build')));
 // mongoose.set('useFindAndModify', false);
 
 
